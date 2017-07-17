@@ -1,17 +1,13 @@
 RSpec.describe Dry::Validation::Schema, 'for an array' do
   context 'When a schema has a property that is an array' do
     subject(:schema) do
-      array_schema = Dry::Validation.Schema do
-        each do
-          schema do
-            required(:prefix).filled
-            required(:value).filled
-          end
-        end
+      sub_schema = Dry::Validation.Schema do
+        required(:prefix).filled
+        required(:value).filled
       end
 
       Dry::Validation.Schema do
-        required(:some_array_prop).schema(array_schema)
+        required(:some_array_prop).each(sub_schema)
       end
     end
 
